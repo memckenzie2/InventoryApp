@@ -9,7 +9,7 @@ package com.example.android.inventoryapp;
  * This MainActivity class is based upon the layout introduced for the Earthquake App.
  * Source Code found here: https://github.com/udacity/ud843-QuakeReport
  *
- * test
+ * t
  */
 
 import android.content.Intent;
