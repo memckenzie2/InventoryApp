@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:paddingBottom="@dimen/small_padding"
-        android:text="Add a new item to the inventory"
+        android:text="Add a new item to the inventory database"
         android:textAllCaps="true"
         android:textColor="@color/colorPrimary"
         android:textSize="30sp"
@@ -35,13 +35,13 @@
         android:ems="10"
         android:gravity="center"
         android:inputType="textPersonName"
-        android:text="Enter Product Name"
+        android:hint="Example: SuperSoaker 4000 (Model #456)"
         android:textSize="14sp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Price"
+        android:text="Price (USD $)"
         android:textSize="18sp"
         android:textStyle="bold"
         android:paddingBottom="@dimen/small_padding"/>
@@ -53,7 +53,7 @@
         android:ems="10"
         android:gravity="center"
         android:inputType="numberDecimal"
-        android:text="Enter Price"
+        android:hint="10.33"
         android:textSize="14sp" />
 
     <TextView
@@ -71,7 +71,7 @@
         android:ems="10"
         android:gravity="center"
         android:inputType="number"
-        android:text="Enter Quantity"
+        android:hint="Enter Positive Whole Numbers (e.g. 1, 24, 160)"
         android:textSize="14sp" />
 
     <TextView
@@ -89,7 +89,7 @@
         android:ems="10"
         android:gravity="center"
         android:inputType="textPersonName"
-        android:text="Enter Supplier Name"
+        android:hint="Example: Waterguns Inc."
         android:textSize="14sp" />
 
     <TextView
@@ -107,7 +107,7 @@
         android:ems="10"
         android:gravity="center"
         android:inputType="phone"
-        android:text="Input Supplier Phone #"
+        android:hint="Use form xxx-xxx-xxxx"
         android:textSize="14sp" />
 
 </LinearLayout>

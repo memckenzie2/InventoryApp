@@ -2,6 +2,7 @@ package com.example.android.inventoryapp;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,6 +22,22 @@ public class EditorActivity extends AppCompatActivity {
     private EditText editSupplier;
     private EditText editSupPhone;
 
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        //Inflate Editor view activity_editor.xml
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_editor);
+
+
+        //EditText fields from the "Add an Item to Inventory" screen activity_editor.xml
+        editName = findViewById(R.id.product_name);
+        editPrice= findViewById(R.id.price);
+        editQuantity= findViewById(R.id.quantity);
+        editSupplier= findViewById(R.id.supplier_name);
+        editSupPhone= findViewById(R.id.supplier_phone);
+    }
+
     private void insertItem(){
         //Retrieves user input from Edit Text fields
         String productName = editName.getText().toString().trim();
@@ -28,6 +45,13 @@ public class EditorActivity extends AppCompatActivity {
         String productQuantity = editQuantity.getText().toString().trim();
         String productSupplier = editSupplier.getText().toString().trim();
         String productSupPhone = editSupPhone.getText().toString().trim();
+
+        //Ensure that all editText inputs are non-empty
+        if((productName.length() == 0) && (productPrice.length() == 0) && (productQuantity.length() == 0) && (productSupplier.length() == 0) && (productSupPhone.length() == 0)){
+            Toast.makeText(this, "Check form. Input missing from fields. ", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
 
         //Convert numerical values from string to appropriate type
         Double productPriceDouble = Double.parseDouble(productPrice);
@@ -43,8 +67,8 @@ public class EditorActivity extends AppCompatActivity {
         //Item attributes are pulled
         ContentValues values = new ContentValues();
         values.put(ItemEntry.COLUMN_PRODUCT_NAME, productName);
-        values.put(ItemEntry.COLUMN_PRICE, productPrice);
-        values.put(ItemEntry.COLUMN_QUANTITY, productQuantity);
+        values.put(ItemEntry.COLUMN_PRICE, productPriceDouble);
+        values.put(ItemEntry.COLUMN_QUANTITY, productQuantityInt);
         values.put(ItemEntry.COLUMN_SUPPLIER, productSupplier);
         values.put(ItemEntry.COLUMN_SUPPLIER_PHONE, productSupPhone);
 
@@ -56,8 +80,16 @@ public class EditorActivity extends AppCompatActivity {
             // If the row ID is -1, then there was an error with insertion.
             Toast.makeText(this, "Error with saving inventory item " + productName+ ". Please retry.", Toast.LENGTH_SHORT).show();
         } else {
-            // Otherwise, the insertion was successful and we can display a toast with the row ID.
+            //Clear user's input from form
+            editName.setText("");
+            editPrice.setText("");
+            editQuantity.setText("");
+            editSupplier.setText("");
+            editSupPhone.setText("");
+
+            // The insertion was successful and we can display a toast with the row ID.
             Toast.makeText(this, "Inventory item "+ productName+ " saved with row id: " + newRowId, Toast.LENGTH_SHORT).show();
+
         }
 
     }
@@ -75,7 +107,8 @@ public class EditorActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             // Respond to a click on the "Save" menu option
             case R.id.action_save:
-                // Fill in
+                //Insert the item using InterItem function
+                insertItem();
                 return true;
             // Respond to a click on the "Delete" menu option
             case R.id.action_delete:

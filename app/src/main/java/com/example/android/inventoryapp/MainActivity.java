@@ -60,8 +60,8 @@ public class MainActivity extends AppCompatActivity {
 
         //If user selected add net item to inventory, launch EditorActvity
         if (id == R.id.action_insert_item) {
-            Intent settingsIntent = new Intent(this, EditorActivity.class);
-            startActivity(settingsIntent);
+            Intent editorIntent = new Intent(this, EditorActivity.class);
+            startActivity(editorIntent);
             return true;
         }
 

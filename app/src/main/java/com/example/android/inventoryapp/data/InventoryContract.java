@@ -10,9 +10,7 @@ import android.provider.BaseColumns;
  *
  */
 //Defines table and column names for the inventory database.
-public class InventoryContract {
-
-
+public final class InventoryContract {
 
     /* Inner class that defines the table contents of the item inventory table */
     public static final class ItemEntry implements BaseColumns {
@@ -20,12 +18,18 @@ public class InventoryContract {
         public static final String TABLE_NAME = "item";
 
         //Table Column constants
+        //Unique ID of type INTEGER
         public static final String _ID = BaseColumns._ID;
+        //Item selling price of type DECIMAL??
         public static final String COLUMN_PRICE = "price";
-        public static final String COLUMN_PRODUCT_NAME = "productName";
+        //Item's product name of type TEXT
+        public static final String COLUMN_PRODUCT_NAME = "productname";
+        //Quanitity of items. Of type INTEGER
         public static final String COLUMN_QUANTITY = "quantity";
+        //Item's supplier name of type TEXT
         public static final String COLUMN_SUPPLIER = "supplier";
-        public static final String COLUMN_SUPPLIER_PHONE = "supplierPhone";
+        //Item's supplier's phone number of type TEXT
+        public static final String COLUMN_SUPPLIER_PHONE = "supplierphone";
 
         //Table defaults
         public static final int QUANTITY_UNKNOWN = 0;

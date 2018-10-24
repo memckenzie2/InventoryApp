@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 //Import itemEntry class so you have access to column names, etc.
 import com.example.android.inventoryapp.data.InventoryContract.ItemEntry;
 
-//DB Helper class for Inventroy app. Manages database creation and version management.
+//DB Helper class for Inventory app. Manages database creation and version management.
 
 public class InventoryDbHelper extends SQLiteOpenHelper {
 
@@ -33,7 +33,7 @@ public class InventoryDbHelper extends SQLiteOpenHelper {
                 + ItemEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + ItemEntry.COLUMN_PRODUCT_NAME + " TEXT NOT NULL, "
                 + ItemEntry.COLUMN_PRICE + " DECIMAL NOT NULL, "
-                + ItemEntry.COLUMN_QUANTITY + "INTEGER NOT NULL DEFAULT 0,"
+                + ItemEntry.COLUMN_QUANTITY + " INTEGER DEFAULT 0,"
                 + ItemEntry.COLUMN_SUPPLIER + " TEXT, "
                 + ItemEntry.COLUMN_SUPPLIER_PHONE + " TEXT NOT NULL );";
 
