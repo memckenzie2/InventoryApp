@@ -65,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.inventory_list);
         adapter = new InventoryAdapter(this, inventoryItemArrayList);
 
+        displayDatabase();
+
         if(inventoryItemArrayList.size() == 0){
             emptyStateView.setVisibility(View.VISIBLE);
             listView.setEmptyView(emptyStateView);
@@ -90,6 +92,9 @@ public class MainActivity extends AppCompatActivity {
         }else{
             emptyStateView.setVisibility(View.GONE);
             //An adapter that pulls data from the inventory array list defined above.
+
+            //Display the InventoryAdapter object we created above in a ListView in inventory_list.xml
+            listView.setAdapter(adapter);
 
             adapter.clear();
             adapter.notifyDataSetChanged();
