@@ -29,7 +29,6 @@ public class EditorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
 
-
         //EditText fields from the "Add an Item to Inventory" screen activity_editor.xml
         editName = findViewById(R.id.product_name);
         editPrice= findViewById(R.id.price);
@@ -51,7 +50,6 @@ public class EditorActivity extends AppCompatActivity {
             Toast.makeText(this, "Check form. Input missing from fields. ", Toast.LENGTH_SHORT).show();
             return;
         }
-
 
         //Convert numerical values from string to appropriate type
         Double productPriceDouble = Double.parseDouble(productPrice);
@@ -89,7 +87,6 @@ public class EditorActivity extends AppCompatActivity {
 
             // The insertion was successful and we can display a toast with the row ID.
             Toast.makeText(this, "Inventory item "+ productName+ " saved with row id: " + newRowId, Toast.LENGTH_SHORT).show();
-
         }
 
     }

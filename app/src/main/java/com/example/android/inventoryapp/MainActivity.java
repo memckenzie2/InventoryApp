@@ -42,7 +42,8 @@ public class MainActivity extends AppCompatActivity {
 
     //Database helper to give access to the inventory.db database
     private InventoryDbHelper dbHelper;
-    private ArrayList<InventoryItem> inventoryItemArrayList;
+    private static ArrayList<InventoryItem> inventoryItemArrayList;
+    private InventoryAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,12 +63,22 @@ public class MainActivity extends AppCompatActivity {
 
         //Targets the ListView in inventory_list.xml
         listView = (ListView) findViewById(R.id.inventory_list);
+        adapter = new InventoryAdapter(this, inventoryItemArrayList);
 
+        if(inventoryItemArrayList.size() == 0){
+            emptyStateView.setVisibility(View.VISIBLE);
+            listView.setEmptyView(emptyStateView);
+        }else{
+            emptyStateView.setVisibility(View.GONE);
+            //An adapter that pulls data from the inventory array list defined above.
 
-
+            //Display the InventoryAdapter object we created above in a ListView in inventory_list.xml
+            listView.setAdapter(adapter);
+        }
 
     }
 
+    //Ensures database is up to date everytime the activty starts/restarts not just when created
     @Override
     protected void onStart() {
         super.onStart();
@@ -79,11 +90,10 @@ public class MainActivity extends AppCompatActivity {
         }else{
             emptyStateView.setVisibility(View.GONE);
             //An adapter that pulls data from the inventory array list defined above.
-            InventoryAdapter adapter = new InventoryAdapter(this, inventoryItemArrayList);
-            //Display the InventoryAdapter object we created above in a ListView in inventory_list.xml
-            listView.setAdapter(adapter);
-        }
 
+            adapter.clear();
+            adapter.notifyDataSetChanged();
+        }
     }
 
     private void displayDatabase(){
@@ -139,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
 
         cursor.close();
     }
+
 
     @Override
     // This method initialize the contents of the Activity's options menu.
