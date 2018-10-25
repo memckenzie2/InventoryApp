@@ -3,6 +3,7 @@
     <string name="editor">Add Inventory Item</string>
     <string name="save">Save Item</string>
     <string name="delete">Delete Item</string>
+    <string name="empty">Database is empty. Tap menu at top right to add an item to the inventory database"</string>
     <string name="action_insert_item">Add Item to Inventory</string>
 
 </resources>

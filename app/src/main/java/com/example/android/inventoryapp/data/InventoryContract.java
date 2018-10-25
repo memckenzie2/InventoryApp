@@ -20,7 +20,7 @@ public final class InventoryContract {
         //Table Column constants
         //Unique ID of type INTEGER
         public static final String _ID = BaseColumns._ID;
-        //Item selling price of type DECIMAL??
+        //Item selling price of type DECIMAL
         public static final String COLUMN_PRICE = "price";
         //Item's product name of type TEXT
         public static final String COLUMN_PRODUCT_NAME = "productname";
