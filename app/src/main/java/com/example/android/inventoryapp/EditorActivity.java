@@ -46,7 +46,7 @@ public class EditorActivity extends AppCompatActivity {
         String productSupPhone = editSupPhone.getText().toString().trim();
 
         //Ensure that all editText inputs are non-empty
-        if((productName.length() == 0) && (productPrice.length() == 0) && (productQuantity.length() == 0) && (productSupplier.length() == 0) && (productSupPhone.length() == 0)){
+        if((productName.length() == 0) || (productPrice.length() == 0) || (productQuantity.length() == 0) || (productSupplier.length() == 0) || (productSupPhone.length() == 0)){
             Toast.makeText(this, "Check form. Input missing from fields. ", Toast.LENGTH_SHORT).show();
             return;
         }

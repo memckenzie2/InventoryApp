@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
     //Database helper to give access to the inventory.db database
     private InventoryDbHelper dbHelper;
-    private static ArrayList<InventoryItem> inventoryItemArrayList;
+    private ArrayList<InventoryItem> inventoryItemArrayList;
     private InventoryAdapter adapter;
 
     @Override
@@ -67,39 +67,13 @@ public class MainActivity extends AppCompatActivity {
 
         displayDatabase();
 
-        if(inventoryItemArrayList.size() == 0){
-            emptyStateView.setVisibility(View.VISIBLE);
-            listView.setEmptyView(emptyStateView);
-        }else{
-            emptyStateView.setVisibility(View.GONE);
-            //An adapter that pulls data from the inventory array list defined above.
+        //Display the InventoryAdapter object we created above in a ListView in inventory_list.xml
+        listView.setEmptyView(emptyStateView);
+        listView.setAdapter(adapter);
 
-            //Display the InventoryAdapter object we created above in a ListView in inventory_list.xml
-            listView.setAdapter(adapter);
-        }
 
     }
 
-    //Ensures database is up to date everytime the activty starts/restarts not just when created
-    @Override
-    protected void onStart() {
-        super.onStart();
-        displayDatabase();
-
-        if(inventoryItemArrayList.size() == 0){
-            emptyStateView.setVisibility(View.VISIBLE);
-            listView.setEmptyView(emptyStateView);
-        }else{
-            emptyStateView.setVisibility(View.GONE);
-            //An adapter that pulls data from the inventory array list defined above.
-
-            //Display the InventoryAdapter object we created above in a ListView in inventory_list.xml
-            listView.setAdapter(adapter);
-
-            adapter.clear();
-            adapter.notifyDataSetChanged();
-        }
-    }
 
     private void displayDatabase(){
         //Open (or create) database to read query from.
@@ -149,12 +123,16 @@ public class MainActivity extends AppCompatActivity {
 
             InventoryItem newItem = new InventoryItem(id, product, price, quantity, supplier, supplierPhone);
             inventoryItemArrayList.add(newItem);
-
         }
-
+        adapter.notifyDataSetChanged();
         cursor.close();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        adapter.notifyDataSetChanged();
+    }
 
     @Override
     // This method initialize the contents of the Activity's options menu.
