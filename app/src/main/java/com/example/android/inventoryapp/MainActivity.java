@@ -1,7 +1,7 @@
 package com.example.android.inventoryapp;
 
 /**
- * An inventory app that stores data inputby the user in a database.
+ * An inventory app that stores data input by the user in a database.
 
  * Implementation of this app is based on the projects from the Udacity Android Basics nano-degree.
  * Each class has a list of the apps and or other projects that laid the foundation for that class including a link to the relevant source codes.
@@ -70,8 +70,6 @@ public class MainActivity extends AppCompatActivity {
         //Display the InventoryAdapter object we created above in a ListView in inventory_list.xml
         listView.setEmptyView(emptyStateView);
         listView.setAdapter(adapter);
-
-
     }
 
 
@@ -105,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
         String supplier;
         String supplierPhone;
 
+        //Move over content of database and add their contents to the list
         while(cursor.moveToNext()){
             //Add inventory Item to a listView
             indID = cursor.getColumnIndex(ItemEntry._ID);
@@ -130,8 +129,18 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onStart() {
+        //Update database with latest database contents (after clearing current list) on Activity Start
         super.onStart();
-        adapter.notifyDataSetChanged();
+        adapter.clear();
+        displayDatabase();
+    }
+
+    @Override
+    protected void onResume() {
+        //Update database with latest database contents (after clearing current list) on Activity Resume
+        super.onResume();
+        adapter.clear();
+        displayDatabase();
     }
 
     @Override

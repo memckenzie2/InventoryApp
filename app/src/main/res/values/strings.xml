@@ -2,8 +2,23 @@
     <string name="app_name">Inventory App - Part 1</string>
     <string name="editor">Add Inventory Item</string>
     <string name="save">Save Item</string>
-    <string name="delete">Delete Item</string>
-    <string name="empty">Database is empty. Tap menu at top right to add an item to the inventory database"</string>
+    <string name="delete">Clear Form</string>
+    <string name="empty">Database is empty. Tap "Add Inventory Item" to add an item to the inventory database."</string>
     <string name="action_insert_item">Add Item to Inventory</string>
+    <string name="add_a_new_item_to_the_inventory_database">Add a new item to the inventory database</string>
+    <string name="product_name">Product Name</string>
+    <string name="example_supersoaker_4000_model_456">Example: SuperSoaker 4000 (Model #456)</string>
+    <string name="price_usd">Price (USD $)</string>
+    <string name="_10_33">10.33</string>
+    <string name="quantity">Quantity</string>
+    <string name="enter_positive_whole_numbers_e_g_1_24_160">Enter Positive Whole Numbers (e.g. 1, 24, 160)</string>
+    <string name="supplier_name">Supplier Name</string>
+    <string name="example_waterguns_inc">Example: Waterguns Inc.</string>
+    <string name="supplier_phone_number">Supplier Phone Number</string>
+    <string name="use_form_xxx_xxx_xxxx">Use form xxx-xxx-xxxx</string>
+    <string name="supplier">Supplier</string>
+    <string name="supplier_s">Supplier\'s #</string>
+    <string name="quantity_in_stock">Quantity in Stock</string>
+    <string name="price">Price</string>
 
 </resources>

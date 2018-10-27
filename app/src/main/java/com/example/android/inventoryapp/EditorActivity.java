@@ -1,5 +1,12 @@
 package com.example.android.inventoryapp;
 
+/**
+ * Implementation of this app is based on the Pet Shelter App from the Udacity Android Basics nano-degree.
+ * Source Code found here: https://github.com/udacity/ud845-Pets/commit/b230d20619c2e6bf769a765fa238486fd3b9a003
+ *
+ * This activity takes input from the user and inputs it into the inventory.db database us the innventoryDbHelper class.
+ */
+
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -37,7 +44,7 @@ public class EditorActivity extends AppCompatActivity {
         editSupPhone= findViewById(R.id.supplier_phone);
     }
 
-    private void insertItem(){
+    private boolean insertItem(){
         //Retrieves user input from Edit Text fields
         String productName = editName.getText().toString().trim();
         String productPrice = editPrice.getText().toString().trim();
@@ -45,50 +52,52 @@ public class EditorActivity extends AppCompatActivity {
         String productSupplier = editSupplier.getText().toString().trim();
         String productSupPhone = editSupPhone.getText().toString().trim();
 
-        //Ensure that all editText inputs are non-empty
+        //Ensure that all editText inputs are non-empty or else it inputs item into database
         if((productName.length() == 0) || (productPrice.length() == 0) || (productQuantity.length() == 0) || (productSupplier.length() == 0) || (productSupPhone.length() == 0)){
             Toast.makeText(this, "Check form. Input missing from fields. ", Toast.LENGTH_SHORT).show();
-            return;
+            return false;
         }
 
-        //Convert numerical values from string to appropriate type
-        Double productPriceDouble = Double.parseDouble(productPrice);
-        Integer productQuantityInt = Integer.parseInt(productQuantity) ;
 
-        //Create database helper and pass it current context
-        InventoryDbHelper inventoryDbHelper = new InventoryDbHelper(this);
+            //Convert numerical values from string to appropriate type
+            Double productPriceDouble = Double.parseDouble(productPrice);
+            Integer productQuantityInt = Integer.parseInt(productQuantity);
 
-        // Set the database inventory.dp to be in write mode
-        SQLiteDatabase dbInventory = inventoryDbHelper.getWritableDatabase();
+            //Create database helper and pass it current context
+            InventoryDbHelper inventoryDbHelper = new InventoryDbHelper(this);
 
-        // Create a ContentValues object where column names are the keys and item attributes are the values.
-        //Item attributes are pulled
-        ContentValues values = new ContentValues();
-        values.put(ItemEntry.COLUMN_PRODUCT_NAME, productName);
-        values.put(ItemEntry.COLUMN_PRICE, productPriceDouble);
-        values.put(ItemEntry.COLUMN_QUANTITY, productQuantityInt);
-        values.put(ItemEntry.COLUMN_SUPPLIER, productSupplier);
-        values.put(ItemEntry.COLUMN_SUPPLIER_PHONE, productSupPhone);
+            // Set the database inventory.dp to be in write mode
+            SQLiteDatabase dbInventory = inventoryDbHelper.getWritableDatabase();
 
-        //Create a new row to store the Item attributes in. Return long to check for error code.
-        long newRowId = dbInventory.insert(ItemEntry.TABLE_NAME, null, values);
+            // Create a ContentValues object where column names are the keys and item attributes are the values.
+            //Item attributes are pulled
+            ContentValues values = new ContentValues();
+            values.put(ItemEntry.COLUMN_PRODUCT_NAME, productName);
+            values.put(ItemEntry.COLUMN_PRICE, productPriceDouble);
+            values.put(ItemEntry.COLUMN_QUANTITY, productQuantityInt);
+            values.put(ItemEntry.COLUMN_SUPPLIER, productSupplier);
+            values.put(ItemEntry.COLUMN_SUPPLIER_PHONE, productSupPhone);
 
-        // Show a toast message to indicate if the insertion was successful
-        if (newRowId == -1) {
-            // If the row ID is -1, then there was an error with insertion.
-            Toast.makeText(this, "Error with saving inventory item " + productName+ ". Please retry.", Toast.LENGTH_SHORT).show();
-        } else {
-            //Clear user's input from form
-            editName.setText("");
-            editPrice.setText("");
-            editQuantity.setText("");
-            editSupplier.setText("");
-            editSupPhone.setText("");
+            //Create a new row to store the Item attributes in. Return long to check for error code.
+            long newRowId = dbInventory.insert(ItemEntry.TABLE_NAME, null, values);
 
-            // The insertion was successful and we can display a toast with the row ID.
-            Toast.makeText(this, "Inventory item "+ productName+ " saved with row id: " + newRowId, Toast.LENGTH_SHORT).show();
-        }
+            // Show a toast message to indicate if the insertion was successful
+            if (newRowId == -1) {
+                // If the row ID is -1, then there was an error with insertion.
+                Toast.makeText(this, "Error with saving inventory item " + productName + ". Please retry.", Toast.LENGTH_SHORT).show();
+                return false;
+            } else {
+                //Clear user's input from form
+                editName.setText("");
+                editPrice.setText("");
+                editQuantity.setText("");
+                editSupplier.setText("");
+                editSupPhone.setText("");
 
+                // The insertion was successful and we can display a toast with the row ID.
+                Toast.makeText(this, "Inventory item " + productName + " saved with row id: " + newRowId, Toast.LENGTH_SHORT).show();
+                return true;
+            }
     }
 
     //Adds menu to Activity
@@ -104,15 +113,23 @@ public class EditorActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             // Respond to a click on the "Save" menu option
             case R.id.action_save:
-                //Insert the item using InterItem function
-                insertItem();
-                finish();
+                //Repeatedly try to insert item each time user hits save.
+                boolean inserted;
+                //Try to insert the item using InterItem function
+                inserted = insertItem();
+                if (inserted == true) {
+                    finish();
+                }
                 return true;
-            // Respond to a click on the "Delete" menu option
+            // Respond to a click on the "Clear Form" menu option
             case R.id.action_delete:
-                // Fill in
+                //Clear user's input from form
+                editName.setText("");
+                editPrice.setText("");
+                editQuantity.setText("");
+                editSupplier.setText("");
+                editSupPhone.setText("");
                 return true;
-
         }
         return super.onOptionsItemSelected(item);
     }

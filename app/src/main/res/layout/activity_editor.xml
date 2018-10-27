@@ -10,104 +10,55 @@
 
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingBottom="@dimen/small_padding"
-        android:text="Add a new item to the inventory database"
-        android:textAllCaps="true"
-        android:textColor="@color/colorPrimary"
-        android:textSize="30sp"
-        android:textStyle="bold" />
+        android:text="@string/add_a_new_item_to_the_inventory_database"
+        style="@style/title_style" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Product Name"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:paddingBottom="@dimen/small_padding"/>
+        android:text="@string/product_name"
+        style="@style/textbox_label" />
 
     <EditText
         android:id="@+id/product_name"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:gravity="center"
-        android:inputType="textPersonName"
-        android:hint="Example: SuperSoaker 4000 (Model #456)"
-        android:textSize="14sp" />
+        android:hint="@string/example_supersoaker_4000_model_456"
+        style="@style/edittext_style" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Price (USD $)"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:paddingBottom="@dimen/small_padding"/>
+        android:text="@string/price_usd"
+        style="@style/textbox_label" />
 
     <EditText
         android:id="@+id/price"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:gravity="center"
+        style="@style/edittext_style"
         android:inputType="numberDecimal"
-        android:hint="10.33"
-        android:textSize="14sp" />
+        android:hint="@string/_10_33" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Quantity"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:paddingBottom="@dimen/small_padding"/>
+        android:text="@string/quantity"
+        style="@style/textbox_label" />
 
     <EditText
         android:id="@+id/quantity"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:gravity="center"
+        style="@style/edittext_style"
         android:inputType="number"
-        android:hint="Enter Positive Whole Numbers (e.g. 1, 24, 160)"
-        android:textSize="14sp" />
+        android:hint="@string/enter_positive_whole_numbers_e_g_1_24_160" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Supplier Name"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:paddingBottom="@dimen/small_padding"/>
+        android:text="@string/supplier_name"
+        style="@style/textbox_label" />
 
     <EditText
         android:id="@+id/supplier_name"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:gravity="center"
-        android:inputType="textPersonName"
-        android:hint="Example: Waterguns Inc."
-        android:textSize="14sp" />
+        android:hint="@string/example_waterguns_inc"
+        style="@style/edittext_style" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Supplier Phone Number"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:paddingBottom="@dimen/small_padding"/>
+        android:text="@string/supplier_phone_number"
+        style="@style/textbox_label" />
 
     <EditText
         android:id="@+id/supplier_phone"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:gravity="center"
+        style="@style/edittext_style"
         android:inputType="phone"
-        android:hint="Use form xxx-xxx-xxxx"
-        android:textSize="14sp" />
+        android:hint="@string/use_form_xxx_xxx_xxxx" />
 
 </LinearLayout>
