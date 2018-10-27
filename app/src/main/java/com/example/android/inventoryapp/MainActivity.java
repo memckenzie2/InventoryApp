@@ -1,15 +1,13 @@
 package com.example.android.inventoryapp;
 
 /**
- * An inventory app that stores data input by the user in a database.
+ * An inventory app that stores data input by the user in a database and displays the current databas contents to a list.
 
  * Implementation of this app is based on the projects from the Udacity Android Basics nano-degree.
  * Each class has a list of the apps and or other projects that laid the foundation for that class including a link to the relevant source codes.
  *
- * This MainActivity class is based upon the layout introduced for the Earthquake App.
- * Source Code found here: https://github.com/udacity/ud843-QuakeReport
- *
- * t
+ * This MainActivity class is based upon the layout introduced for the Pets App
+ * Source Code found here: Source Code found here: https://github.com/udacity/ud845-Pets/
  */
 
 import android.content.Intent;

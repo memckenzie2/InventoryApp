@@ -2,7 +2,7 @@ package com.example.android.inventoryapp;
 
 /**
  * Implementation of this app is based on the Pet Shelter App from the Udacity Android Basics nano-degree.
- * Source Code found here: https://github.com/udacity/ud845-Pets/commit/b230d20619c2e6bf769a765fa238486fd3b9a003
+ * Source Code found here: https://github.com/udacity/ud845-Pets/
  *
  * This activity takes input from the user and inputs it into the inventory.db database us the innventoryDbHelper class.
  */
