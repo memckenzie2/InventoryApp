@@ -34,11 +34,6 @@ public final class InventoryContract {
         //Table defaults
         public static final int QUANTITY_UNKNOWN = 0;
     }
-
-    /* Inner class that defines the table contents of the suppliers table *//*
-    public static final class SupplierEntry implements BaseColumns {
-        public static final String TABLE_NAME = "supplier";
-    }*/
-
+    
 
 }
