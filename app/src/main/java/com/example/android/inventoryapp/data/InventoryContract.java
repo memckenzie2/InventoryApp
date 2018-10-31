@@ -34,6 +34,6 @@ public final class InventoryContract {
         //Table defaults
         public static final int QUANTITY_UNKNOWN = 0;
     }
-    
+
 
 }
