@@ -12,21 +12,19 @@ package com.example.android.inventoryapp;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.android.inventoryapp.data.InventoryDbHelper;
-//Import itemEntry class so you have access to column names, etc.
+import com.example.android.inventoryapp.data.InventoryContract;
 import com.example.android.inventoryapp.data.InventoryContract.ItemEntry;
 
 import java.util.ArrayList;
+
+//Import itemEntry class so you have access to column names, etc.
 
 //Public Domain Image Sourced from https://commons.wikimedia.org/wiki/File:US-UK-blend.png
 
@@ -38,8 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView emptyStateView;
     private ListView listView;
 
-    //Database helper to give access to the inventory.db database
-    private InventoryDbHelper dbHelper;
+
     private ArrayList<InventoryItem> inventoryItemArrayList;
     private InventoryAdapter adapter;
 
@@ -53,14 +50,11 @@ public class MainActivity extends AppCompatActivity {
         //Setup empty state view
         emptyStateView = findViewById(R.id.empty_state_view);
 
-        // Instantiate our database helper class that give us acces to SQLiteOpenHelper
-        dbHelper = new InventoryDbHelper(this);
-
         //Create an ArrayList of InventoryItems to store the inventory in
         inventoryItemArrayList = new ArrayList<InventoryItem>();
 
         //Targets the ListView in inventory_list.xml
-        listView = (ListView) findViewById(R.id.inventory_list);
+        listView = findViewById(R.id.inventory_list);
         adapter = new InventoryAdapter(this, inventoryItemArrayList);
 
         displayDatabase();
@@ -72,8 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void displayDatabase(){
-        //Open (or create) database to read query from.
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
 
         String [] projection = {
                 ItemEntry._ID,
@@ -84,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                 ItemEntry.COLUMN_SUPPLIER_PHONE
         };
 
-        Cursor cursor = db.query(ItemEntry.TABLE_NAME, projection, null, null, null, null, null);
+        Cursor cursor = getContentResolver().query(InventoryContract.ItemEntry.CONTENT_URI, projection, null, null, null);
         cursor.moveToFirst();
 
         Integer indID;

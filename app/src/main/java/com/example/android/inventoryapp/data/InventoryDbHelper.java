@@ -1,11 +1,19 @@
 package com.example.android.inventoryapp.data;
 
+/**
+ * Implementation of this class is based on the Pet Shelter App from the Udacity Android Basics nano-degree.
+ * Source Code found here: https://github.com/udacity/ud845-Pets/
+ * <p>
+ * This database helper manages database creation and version management.
+ */
+
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-//Import itemEntry class so you have access to column names, etc.
 import com.example.android.inventoryapp.data.InventoryContract.ItemEntry;
+
+//Import itemEntry class so you have access to column names, etc.
 
 //DB Helper class for Inventory app. Manages database creation and version management.
 
