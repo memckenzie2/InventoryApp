@@ -7,18 +7,23 @@ package com.example.android.inventoryapp;
  * This activity takes input from the user and inputs it into the inventory.db database us the innventoryDbHelper class.
  */
 
+import android.app.AlertDialog;
 import android.app.LoaderManager;
 import android.content.ContentValues;
 import android.content.CursorLoader;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -36,6 +41,19 @@ public class EditorActivity extends AppCompatActivity implements
     private EditText editQuantity;
     private EditText editSupplier;
     private EditText editSupPhone;
+    //Listen for changes in form
+    private boolean itemEntryHasChanged = false;
+
+    //OnTouch Listener to see if user interacted with view
+    // OnTouchListener that listens for any user touches on a View, implying that they are modifying
+    // the view, and we change the mPetHasChanged boolean to true.
+    private View.OnTouchListener touchListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            itemEntryHasChanged = true;
+            return false;
+        }
+    };
 
     /**
      * Identifier for the item data loader
@@ -60,9 +78,6 @@ public class EditorActivity extends AppCompatActivity implements
             // This is a new item for the inventory, so change the app bar to say "Add Inventory Item"
             setTitle(getString(R.string.action_save_item));
 
-            // Invalidate the options menu, so the "Delete" menu option can be hidden.
-            // (It doesn't make sense to delete a pet that hasn't been created yet.)
-            invalidateOptionsMenu();
         } else {
             //Edit an existing item in the inventroy so update title
             setTitle(getString(R.string.action_edit_item));
@@ -80,6 +95,13 @@ public class EditorActivity extends AppCompatActivity implements
         editQuantity= findViewById(R.id.quantity);
         editSupplier= findViewById(R.id.supplier_name);
         editSupPhone= findViewById(R.id.supplier_phone);
+
+        //Set on touch listener to determine if any changes might have been made
+        editName.setOnTouchListener(touchListener);
+        editPrice.setOnTouchListener(touchListener);
+        editQuantity.setOnTouchListener(touchListener);
+        editSupplier.setOnTouchListener(touchListener);
+        editSupPhone.setOnTouchListener(touchListener);
     }
 
     private boolean saveItem(){
@@ -128,7 +150,6 @@ public class EditorActivity extends AppCompatActivity implements
             Toast.makeText(this, R.string.valid_phone, Toast.LENGTH_SHORT).show();
             return false;
         }
-
 
         // Create a ContentValues object where column names are the keys and item attributes are the values.
         //Item attributes are pulled
@@ -206,6 +227,29 @@ public class EditorActivity extends AppCompatActivity implements
                 editSupplier.setText("");
                 editSupPhone.setText("");
                 return true;
+            //Overides the up button press to ensure that the dialog for showUnsaveChangesDialog displays
+            case android.R.id.home:
+                // If no touch/changes detected, use home button as normal
+                if (!itemEntryHasChanged) {
+                    NavUtils.navigateUpFromSameTask(EditorActivity.this);
+                    return true;
+                }
+
+                // If there may be unsaved changes, setup a dialog to warn the user using showUnsavedChangesDialog
+                // Create a click listener to determine if user selected that changes should be discarded.
+                //Only need to monitor discard button since if the other is selected we stay in the activity and make no changes.
+                DialogInterface.OnClickListener discardButtonClickListener =
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                // If user clicked "Discard" button then continue with closing the current activity.
+                                NavUtils.navigateUpFromSameTask(EditorActivity.this);
+                            }
+                        };
+
+                // Show dialog that there are unsaved changes
+                showUnsavedChangesDialog(discardButtonClickListener);
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -256,6 +300,58 @@ public class EditorActivity extends AppCompatActivity implements
         editSupplier.setText("");
         editSupPhone.setText("");
     }
+
+    //Create a dialogue in instances where user may have made changes and is trying to navigate away from editor view
+    private void showUnsavedChangesDialog(
+            DialogInterface.OnClickListener discardButtonClickListener) {
+        // Create an AlertDialog.Builder and set the message, and click listeners
+        // for the positive and negative buttons on the dialog.
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.unsaved_changes_msg);
+        //Positive means you discard edits
+        builder.setPositiveButton(R.string.discard, discardButtonClickListener);
+        //Negative means they may want to save changes first
+        builder.setNegativeButton(R.string.keep_changes, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User clicked the "negative" button, so dismiss message and continue editing the pet.
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        // Create and show the AlertDialog as defined above
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    //Overide back button press to ensure that the dialog for showUnsaveChangesDialog displays
+    @Override
+    public void onBackPressed() {
+        // If no touch/changes detected, use back button as normal
+        if (!itemEntryHasChanged) {
+            super.onBackPressed();
+            return;
+        }
+
+        // If there may be unsaved changes, setup a dialog to warn the user using showUnsavedChangesDialog
+        // Create a click listener to determine if user selected that changes should be discarded.
+        //Only need to monitor discard button since if the other is selected we stay in the activity and make no changes.
+        DialogInterface.OnClickListener discardButtonClickListener =
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        // If user clicked "Discard" button then continue with closing the current activity.
+                        finish();
+                    }
+                };
+
+        // Show dialog that there are unsaved changes
+        showUnsavedChangesDialog(discardButtonClickListener);
+    }
+
+
+
 }
 
 

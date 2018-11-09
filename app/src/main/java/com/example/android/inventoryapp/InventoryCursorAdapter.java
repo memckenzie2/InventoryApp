@@ -8,13 +8,18 @@ package com.example.android.inventoryapp;
  */
 
 
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.inventoryapp.data.InventoryContract;
 
@@ -24,6 +29,7 @@ import com.example.android.inventoryapp.data.InventoryContract;
  * how to create list items for each row of pet data in the {@link Cursor}.
  */
 public class InventoryCursorAdapter extends CursorAdapter {
+
 
     /**
      * Constructs a new {@link InventoryCursorAdapter}.
@@ -56,13 +62,39 @@ public class InventoryCursorAdapter extends CursorAdapter {
      * @param cursor  The cursor object containing the data with the pointer pointing at the correct location
      */
     @Override
-    public void bindView(View itemView, Context context, Cursor cursor) {
+    public void bindView(View itemView, final Context context, final Cursor cursor) {
+
+        final Context mContext = context;
 
         //Find views from inventory_item.xml
         TextView productView = itemView.findViewById(R.id.product_list);
         TextView priceView = itemView.findViewById(R.id.price_list);
         TextView quantityView = itemView.findViewById(R.id.quantity_list);
+        Button saleButton = itemView.findViewById(R.id.sale_button);
 
+        saleButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                int quantityViewColumn = cursor.getColumnIndex(InventoryContract.ItemEntry.COLUMN_QUANTITY);
+                int idColumn = cursor.getColumnIndex(InventoryContract.ItemEntry._ID);
+
+                int productQuantityInt = cursor.getInt(quantityViewColumn);
+                int id = cursor.getInt(idColumn);
+                Uri itemURI = ContentUris.withAppendedId(InventoryContract.ItemEntry.CONTENT_URI, id);
+                if (productQuantityInt <= 0) {
+                    Toast.makeText(context, R.string.sold_out, Toast.LENGTH_SHORT).show();
+                } else {
+                    productQuantityInt = productQuantityInt - 1;
+                    ContentValues values = new ContentValues();
+                    values.put(InventoryContract.ItemEntry.COLUMN_QUANTITY, productQuantityInt);
+                    mContext.getContentResolver().update(itemURI, values, null, null);
+                    Toast.makeText(context, R.string.item_sold, Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
 
         //Finds the correct column for each inventory item's attributes
         int productViewColumn = cursor.getColumnIndex(InventoryContract.ItemEntry.COLUMN_PRODUCT_NAME);

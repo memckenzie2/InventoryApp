@@ -10,15 +10,18 @@ package com.example.android.inventoryapp;
  * Source Code found here: Source Code found here: https://github.com/udacity/ud845-Pets/
  */
 
+import android.app.AlertDialog;
 import android.app.LoaderManager;
 import android.content.ContentUris;
 import android.content.CursorLoader;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -100,14 +103,51 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        //If user selected add net item to inventory, launch EditorActvity
-        if (id == R.id.action_insert_item) {
-            Intent editorIntent = new Intent(this, EditorActivity.class);
-            startActivity(editorIntent);
-            return true;
+        switch (item.getItemId()) {
+            case R.id.action_insert_item:
+                Intent editorIntent = new Intent(this, EditorActivity.class);
+                startActivity(editorIntent);
+                return true;
+
+            case R.id.delete_all:
+                // Pop up confirmation dialog for deletion
+                showDeleteConfirmationDialog();
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showDeleteConfirmationDialog() {
+        // Create an AlertDialog.Builder and set the message, and click listeners
+        // for the postivie and negative buttons on the dialog.
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.delete_dialog_msg);
+        builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User clicked the "Delete" button, so delete the pet.
+                deleteAllItems();
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User clicked the "Cancel" button, so dismiss the dialog
+                // and continue editing the pet.
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        // Create and show the AlertDialog
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    //Delete all items from the inventory
+    private void deleteAllItems() {
+        int rowsDeleted = getContentResolver().delete(ItemEntry.CONTENT_URI, null, null);
+        Log.v("CatalogActivity", rowsDeleted + " rows deleted from pet database");
     }
 
     // Called when a new Cursor Loader needs to be created and returns a cursor loader
