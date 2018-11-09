@@ -6,7 +6,8 @@
     <string name="clear">Clear Form</string>
     <string name="delete">Delete Entry</string>
     <string name="empty">Database is empty. Tap "Add Inventory Item" to add an item to the inventory database."</string>
-    <string name="action_insert_item">Add Item to Inventory</string>
+    <string name="action_save_item">Save Item to Inventory</string>
+    <string name="action_edit_item">Edit Item in Inventory</string>
     <string name="add_a_new_item_to_the_inventory_database">Add a new item to the inventory database</string>
     <string name="product_name">Product Name</string>
     <string name="example_supersoaker_4000_model_456">Example: SuperSoaker 4000 (Model #456)</string>
@@ -21,12 +22,15 @@
     <string name="use_form_xxx_xxx_xxxx">Use form xxx-xxx-xxxx</string>
     <string name="phone_sample">555-555-5555</string>
     <string name="supplier">Supplier</string>
-    <string name="supplier_s">Supplier Phone #</string>
     <string name="contact_supplier">Call Supplier</string>
     <string name="quantity_in_stock">Quantity in Stock</string>
     <string name="price">Price</string>
     <string name="minus">-</string>
     <string name="plus">+</string>
     <string name="sale">Sale</string>
+    <string name="error_insert">Error with saving inventory item. Please retry.</string>
+    <string name="insert">Inventory item successfully saved.</string>
+    <string name="missing_input">Please complete all required fields in the inventory form.</string>
+    <string name="valid_phone">A valid phone number is required. Use the form xxx-xxx-xxxx.</string>
 
 </resources>

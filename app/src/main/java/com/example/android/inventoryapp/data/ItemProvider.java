@@ -118,6 +118,7 @@ public class ItemProvider extends ContentProvider {
                 //URI not recognized so indicate error to user by thowing an exception
                 throw new IllegalArgumentException("Cannot query unknown URI " + uri);
         }
+        cursor.setNotificationUri(getContext().getContentResolver(), uri);
         return cursor;
 
     }
@@ -136,7 +137,6 @@ public class ItemProvider extends ContentProvider {
             default:
                 throw new IllegalArgumentException("Insertion is not supported for " + uri);
         }
-
     }
 
     /**
@@ -182,6 +182,9 @@ public class ItemProvider extends ContentProvider {
             Log.e(LOG_TAG, "Failed to insert row for " + uri);
             return null;
         }
+
+        //Notifies of change so that the cursor knows there is a change so the information can be reloaded.
+        getContext().getContentResolver().notifyChange(uri, null);
 
         // Returns the URI for the row we added (i.e. URI with ID appended)
         return ContentUris.withAppendedId(uri, id);
@@ -253,9 +256,17 @@ public class ItemProvider extends ContentProvider {
         //Open writable database and update table
         SQLiteDatabase databaseUpdate = inventoryDbHelp.getWritableDatabase();
 
-        //Update databe which will return number of rows updated
-        return databaseUpdate.update(ItemEntry.TABLE_NAME, values, selection, selectionArgs);
+        //Update the database and return number of rows updated
+        int rowsUpdated = databaseUpdate.update(ItemEntry.TABLE_NAME, values, selection, selectionArgs);
 
+        //If update was made, notify of change.
+        if (rowsUpdated != 0) {
+            //Notifies of change so that the cursor knows there is a change so the information can be reloaded.
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+
+        //Returns number of rows updated
+        return rowsUpdated;
     }
 
     /**
@@ -266,19 +277,31 @@ public class ItemProvider extends ContentProvider {
         // Get writeable database
         SQLiteDatabase database = inventoryDbHelp.getWritableDatabase();
 
+        //Track number of rows deleted/removed
+        int rowsRemoved = 0;
+
         final int match = uriMatcher.match(uri);
         switch (match) {
             case INVENTORY:
                 // Delete all rows that match the selection and selection args
-                return database.delete(ItemEntry.TABLE_NAME, selection, selectionArgs);
+                rowsRemoved = database.delete(ItemEntry.TABLE_NAME, selection, selectionArgs);
+                break;
             case INVENTORY_ID:
                 // Delete a single row given by the ID in the URI. Pulls ID from URI to determine what to delete.
                 selection = ItemEntry._ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
-                return database.delete(ItemEntry.TABLE_NAME, selection, selectionArgs);
+
+                rowsRemoved = database.delete(ItemEntry.TABLE_NAME, selection, selectionArgs);
+                break;
             default:
                 throw new IllegalArgumentException("Deletion is not supported for " + uri);
         }
+
+        if (rowsRemoved != 0) {
+            //Notifies of change so that the cursor knows there is a change so the information can be reloaded.
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+        return rowsRemoved;
     }
 
     /**

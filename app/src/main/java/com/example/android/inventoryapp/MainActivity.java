@@ -10,25 +10,30 @@ package com.example.android.inventoryapp;
  * Source Code found here: Source Code found here: https://github.com/udacity/ud845-Pets/
  */
 
+import android.app.LoaderManager;
+import android.content.ContentUris;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.android.inventoryapp.data.InventoryContract;
 import com.example.android.inventoryapp.data.InventoryContract.ItemEntry;
 
-import java.util.ArrayList;
 
 //Import itemEntry class so you have access to column names, etc.
 
 //Public Domain Image Sourced from https://commons.wikimedia.org/wiki/File:US-UK-blend.png
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     /**
      * TextView that is displayed when the inventory list is empty
@@ -36,9 +41,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView emptyStateView;
     private ListView listView;
 
-
-    private ArrayList<InventoryItem> inventoryItemArrayList;
-    private InventoryAdapter adapter;
+    private static final int INVENTORY_LOADER = 22;
+    InventoryCursorAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,88 +54,37 @@ public class MainActivity extends AppCompatActivity {
         //Setup empty state view
         emptyStateView = findViewById(R.id.empty_state_view);
 
-        //Create an ArrayList of InventoryItems to store the inventory in
-        inventoryItemArrayList = new ArrayList<InventoryItem>();
-
-        //Targets the ListView in inventory_list.xml
+        //Finds list view to populate with inventory list
         listView = findViewById(R.id.inventory_list);
-        adapter = new InventoryAdapter(this, inventoryItemArrayList);
 
-        displayDatabase();
-
-        //Display the InventoryAdapter object we created above in a ListView in inventory_list.xml
+        //Sets an empty view for when their is no inventory list
         listView.setEmptyView(emptyStateView);
+
+        //Create instance of adapter for a list of items in the inventory but with a null cursor.
+        adapter = new InventoryCursorAdapter(this, null);
         listView.setAdapter(adapter);
-    }
 
+        // Setup an item click listener for when an item is selected.
+        //Launches a full item details view
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //Create an intent that displays the full item view
+                Intent intent = new Intent(MainActivity.this, ItemDetailsActivity.class);
 
-    private void displayDatabase(){
+                //Createa content URI for the item clicked on
+                Uri currentItemUri = ContentUris.withAppendedId(ItemEntry.CONTENT_URI, id);
 
+                //Set the URI as the data field of the intent so that the ItemDetailView will display its details
+                intent.setData(currentItemUri);
 
-        String [] projection = {
-                ItemEntry._ID,
-                ItemEntry.COLUMN_PRODUCT_NAME,
-                ItemEntry.COLUMN_PRICE,
-                ItemEntry.COLUMN_QUANTITY,
-                ItemEntry.COLUMN_SUPPLIER,
-                ItemEntry.COLUMN_SUPPLIER_PHONE
-        };
+                //Launch the ItemDetailActivity
+                startActivity(intent);
+            }
+        });
 
-        Cursor cursor = getContentResolver().query(InventoryContract.ItemEntry.CONTENT_URI, projection, null, null, null);
-        cursor.moveToFirst();
-
-        Integer indID;
-        Integer indProdName;
-        Integer indPrice;
-        Integer indQuant;
-        Integer indSupplier;
-        Integer indSuppPhone;
-
-        String id;
-        String product;
-        Double price;
-        Integer quantity;
-        String supplier;
-        String supplierPhone;
-
-        //Move over content of database and add their contents to the list
-        while(cursor.moveToNext()){
-            //Add inventory Item to a listView
-            indID = cursor.getColumnIndex(ItemEntry._ID);
-            indProdName = cursor.getColumnIndex(ItemEntry.COLUMN_PRODUCT_NAME);
-            indPrice = cursor.getColumnIndex(ItemEntry.COLUMN_PRICE);
-            indQuant = cursor.getColumnIndex(ItemEntry.COLUMN_QUANTITY);
-            indSupplier = cursor.getColumnIndex(ItemEntry.COLUMN_SUPPLIER);
-            indSuppPhone = cursor.getColumnIndex(ItemEntry.COLUMN_SUPPLIER_PHONE);
-
-            id = cursor.getString(indID);
-            product = cursor.getString(indProdName);
-            price = cursor.getDouble(indPrice);
-            quantity = cursor.getInt(indQuant);
-            supplier = cursor.getString(indSupplier);
-            supplierPhone= cursor.getString(indSuppPhone);
-
-            InventoryItem newItem = new InventoryItem(id, product, price, quantity, supplier, supplierPhone);
-            inventoryItemArrayList.add(newItem);
-        }
-        adapter.notifyDataSetChanged();
-        cursor.close();
-    }
-
-    @Override
-    protected void onStart() {
-        //Update database with latest database contents (after clearing current list) on Activity Start
-        super.onStart();
-        adapter.clear();
-        displayDatabase();
-    }
-
-    @Override
-    protected void onResume() {
-        //Update database with latest database contents (after clearing current list) on Activity Resume
-        super.onResume();
-        adapter.clear();
-        displayDatabase();
+        //Create Cursor Loader
+        getLoaderManager().initLoader(INVENTORY_LOADER, null, this);
     }
 
     @Override
@@ -155,5 +108,33 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    // Called when a new Cursor Loader needs to be created and returns a cursor loader
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+
+        String[] projection = {
+                ItemEntry._ID,
+                ItemEntry.COLUMN_PRODUCT_NAME,
+                ItemEntry.COLUMN_PRICE,
+                ItemEntry.COLUMN_QUANTITY,
+        };
+
+        return new CursorLoader(this, ItemEntry.CONTENT_URI, projection, null, null, null);
+    }
+
+    // Called when a previously created loader has finished loading. Swaps cursor for new cursor with updated data.
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        //Swaps for cursor with updated data
+        adapter.swapCursor(data);
+    }
+
+    // Called when a previously created loader is reset, making the data unavailable. Swaps the cursor for a null one.
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        //Ensures that the cursor gets closed out so we are no longer using it.
+        adapter.swapCursor(null);
     }
 }

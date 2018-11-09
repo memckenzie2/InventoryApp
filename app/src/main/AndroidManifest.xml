@@ -19,7 +19,14 @@
 
         <activity
             android:name=".EditorActivity"
-            android:label="@string/editor"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.android.inventoryapp.MainActivity" />
+        </activity>
+
+        <activity
+            android:name=".ItemDetailsActivity"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
