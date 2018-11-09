@@ -5,7 +5,7 @@
     <string name="edit">Edit Item</string>
     <string name="clear">Clear Form</string>
     <string name="delete">Delete Entry</string>
-    <string name="empty">Database is empty. Tap "Add Inventory Item" to add an item to the inventory database."</string>
+    <string name="empty">Database is empty. \nTap "Add Item" to enter an item into the inventory database."</string>
     <string name="action_save_item">Save Item to Inventory</string>
     <string name="action_edit_item">Edit Item in Inventory</string>
     <string name="add_a_new_item_to_the_inventory_database">Add a new item to the inventory database</string>

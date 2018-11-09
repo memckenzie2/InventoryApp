@@ -17,13 +17,27 @@
         <item name="android:textColor">@color/colorPrimary</item>
         <item name="android:textSize">@dimen/title_font</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:background">@color/colorPrimaryDark</item>
     </style>
 
     <style name="textbox_label">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/small_padding</item>
+        <item name="android:layout_marginRight">@dimen/small_padding</item>
         <item name="android:textSize">@dimen/large_font</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:paddingBottom">@dimen/small_padding</item>
+    </style>
+
+    <style name="textbox_label_bold">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/small_padding</item>
+        <item name="android:layout_marginRight">@dimen/small_padding</item>
+        <item name="android:textSize">@dimen/large_font</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorAccent</item>
         <item name="android:paddingBottom">@dimen/small_padding</item>
     </style>
 
@@ -33,6 +47,52 @@
         <item name="android:ems">10</item>
         <item name="android:gravity">center</item>
         <item name="android:inputType">textPersonName</item>
+        <item name="android:textSize">@dimen/medium_font</item>
+    </style>
+
+    <style name="empty_state">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">@dimen/medium_padding</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/large_font</item>
+    </style>
+
+    <style name="listview_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:drawSelectorOnTop">true</item>
+    </style>
+
+    <style name="bright_button" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:textSize">@dimen/small_font</item>
+    </style>
+
+    <style name="bright_button_big" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:textSize">@dimen/large_font</item>
+    </style>
+
+    <style name="list_item_title">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/small_padding</item>
+        <item name="android:layout_marginLeft">@dimen/small_padding</item>
+        <item name="android:layout_marginTop">@dimen/small_padding</item>
+        <item name="android:layout_marginEnd">@dimen/small_padding</item>
+        <item name="android:layout_marginRight">@dimen/small_padding</item>
+        <item name="android:padding">@dimen/small_padding</item>
+        <item name="android:textSize">@dimen/large_font</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="item_list_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
         <item name="android:textSize">@dimen/medium_font</item>
     </style>
 

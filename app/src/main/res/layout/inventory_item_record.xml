@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:layout_gravity="center"
-    android:gravity="center"
+    android:gravity="top |center_horizontal"
     android:orientation="vertical"
     tools:context=".EditorActivity">
 
@@ -12,10 +12,11 @@
     <TextView
         android:id="@+id/product_name"
         style="@style/title_style"
+        android:gravity="center_vertical|center_horizontal"
         tools:text="@string/example_supersoaker_4000_model_456" />
 
     <TextView
-        style="@style/textbox_label"
+        style="@style/textbox_label_bold"
         android:text="@string/price_usd" />
 
     <TextView
@@ -24,9 +25,9 @@
         tools:text="@string/_10_33" />
 
     <TextView
-        style="@style/textbox_label"
+        style="@style/textbox_label_bold"
         android:text="@string/quantity"
-        tools:text="@string/five" />
+        tools:text="@string/quantity" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -36,6 +37,7 @@
             android:id="@+id/minus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            style="@style/bright_button_big"
             android:text="@string/minus" />
 
         <TextView
@@ -47,12 +49,13 @@
             android:id="@+id/plus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            style="@style/bright_button_big"
             android:text="@string/plus" />
 
     </LinearLayout>
 
     <TextView
-        style="@style/textbox_label"
+        style="@style/textbox_label_bold"
         android:text="@string/supplier_name" />
 
     <TextView
@@ -73,6 +76,7 @@
 
     <Button
         android:id="@+id/call_supplier"
+        style="@style/bright_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/contact_supplier" />

@@ -3,9 +3,9 @@ package com.example.android.inventoryapp.data;
 /**
  * Implementation of this class is based on the Pet Shelter App from the Udacity Android Basics nano-degree.
  * Source Code found here: https://github.com/udacity/ud845-Pets/
- * <p>
+ *
  * This content provider was created using the template found here: https://gist.github.com/udacityandroid/7cf842c9f191f89559c333ef895bc415
- * <p>
+ *
  * Thic content provider delivers items from the inventory database to other classes or apps
  */
 
