@@ -3,7 +3,7 @@ package com.example.android.inventoryapp;
 /**
  * Implementation of this class is based on the Pet Shelter App from the Udacity Android Basics nano-degree.
  * Source Code found here: https://github.com/udacity/ud845-Pets/
- * 
+ *
  * This Cursor Adapter is used to create a list of inventory items
  */
 

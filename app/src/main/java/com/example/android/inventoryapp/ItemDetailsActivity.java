@@ -98,7 +98,7 @@ public class ItemDetailsActivity extends AppCompatActivity implements
                 //Convert value in view into Integer
                 int quantityInt = Integer.parseInt(quantity.getText().toString());
                 if (quantityInt > 0) {
-                    //quantityInt = quantityInt - 1;
+                    quantityInt = quantityInt - 1;
                     ContentValues values = new ContentValues();
                     values.put(ItemEntry.COLUMN_QUANTITY, quantityInt);
                     int rowsChanged = getContentResolver().update(selectedItemUri, values, null, null);
